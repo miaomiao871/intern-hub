@@ -199,43 +199,6 @@ export default function AdminDashboard({ data, setData, onBack }) {
     showToast('✅ 保存成功');
   };
 
-  const exportData = () => {
-    try {
-      const saved = localStorage.getItem('internhub_data');
-      if (!saved) { showToast('❌ 没有数据可导出'); return; }
-      const blob = new Blob([saved], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `internhub-backup-${new Date().toISOString().slice(0, 10)}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('✅ 数据已导出');
-    } catch { showToast('❌ 导出失败'); }
-  };
-
-  const importData = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      try {
-        const json = JSON.parse(ev.target.result);
-        if (!json.tabs && !json.settings) { showToast('❌ 文件格式不正确'); return; }
-        localStorage.setItem('internhub_data', JSON.stringify(json));
-        // 同步到服务器
-        await fetch('/api/data', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: json }),
-        });
-        window.location.reload();
-      } catch { showToast('❌ 文件解析失败'); }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
-  };
-
   return (
     <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-72px)] bg-slate-50">
       {/* ─── Left: Tab Manager ─── */}
@@ -351,18 +314,6 @@ export default function AdminDashboard({ data, setData, onBack }) {
               </div>
             </div>
 
-            {/* 数据迁移 */}
-            <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4 max-w-xl mt-6">
-              <h4 className="text-sm font-semibold text-slate-700">📤 数据迁移</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">数据存在你的浏览器本地（localStorage），换电脑后需要手动导出再导入。在甲电脑点「导出」下载文件 → 发给乙电脑 → 在乙电脑点「导入」选择文件。</p>
-              <div className="flex gap-3">
-                <button onClick={exportData} className="flex-1 px-4 py-2.5 border border-brand-200 text-brand-700 rounded-xl text-sm font-medium hover:bg-brand-50 transition-colors">📥 导出数据</button>
-                <label className="flex-1 cursor-pointer">
-                  <span className="block w-full px-4 py-2.5 border border-brand-200 text-brand-700 rounded-xl text-sm font-medium hover:bg-brand-50 transition-colors text-center">📤 导入数据</span>
-                  <input type="file" accept=".json" onChange={importData} className="hidden" />
-                </label>
-              </div>
-            </div>
           </div>
         )}
 
