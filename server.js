@@ -3,6 +3,7 @@ import cors from 'cors';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { loadFromGitHub, saveToGitHub, isBackupConfigured } from './src/githubBackup.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = join(__dirname, 'data.json');
@@ -52,43 +53,83 @@ app.use(express.json({ limit: '10mb' }));
 // 提供前端静态文件
 app.use(express.static(join(__dirname, 'dist')));
 
-// 读取数据（首次启动自动写入默认数据）
-function loadData() {
-  if (!existsSync(DATA_FILE)) {
-    saveData(DEFAULT_DATA);
-    return DEFAULT_DATA;
+// 读取数据：GitHub 备份优先 → 本地文件 → 默认数据
+async function loadData() {
+  // 如果有 GITHUB_TOKEN，优先从 GitHub 恢复
+  if (isBackupConfigured()) {
+    const githubData = await loadFromGitHub();
+    if (githubData) {
+      // 同时写入本地，后续读取更快
+      saveDataSync(githubData);
+      console.log('📦 已从 GitHub 恢复数据并缓存到本地');
+      return githubData;
+    }
   }
-  try {
-    return JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
-  } catch {
-    saveData(DEFAULT_DATA);
-    return DEFAULT_DATA;
+
+  // GitHub 恢复失败 → 尝试本地文件
+  if (existsSync(DATA_FILE)) {
+    try {
+      const local = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+      console.log('📦 从本地文件加载数据');
+      return local;
+    } catch {
+      console.warn('⚠️ 本地数据损坏，将使用默认数据');
+    }
   }
+
+  // 本地也没有 → 默认数据
+  saveDataSync(DEFAULT_DATA);
+  console.log('📦 使用默认初始数据');
+  return DEFAULT_DATA;
 }
 
-// 保存数据
-function saveData(data) {
+// 同步保存到本地文件
+function saveDataSync(data) {
   writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
+// 保存数据：本地 + GitHub 备份
+async function saveData(data) {
+  // 先写本地（必须成功）
+  saveDataSync(data);
+
+  // 再异步推送 GitHub（不阻塞返回）
+  if (isBackupConfigured()) {
+    saveToGitHub(data).then(ok => {
+      if (ok) console.log('✅ GitHub 备份完成');
+    });
+  }
+}
+
 // GET /api/data — 获取全部数据
-app.get('/api/data', (req, res) => {
-  const data = loadData();
+app.get('/api/data', async (req, res) => {
+  const data = await loadData();
   if (data) {
-    res.json({ success: true, data });
+    res.json({ success: true, data, backup: isBackupConfigured() ? 'github' : 'local' });
   } else {
     res.json({ success: false, message: '暂无数据' });
   }
 });
 
+// GET /api/health — 健康检查 & 备份状态
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    backup: isBackupConfigured() ? 'github' : 'local-only',
+    message: isBackupConfigured()
+      ? '✅ GitHub 自动备份已启用'
+      : '⚠️ 未配置 GitHub 备份（设置 GITHUB_TOKEN 环境变量即可启用）',
+  });
+});
+
 // PUT /api/data — 保存全部数据
-app.put('/api/data', (req, res) => {
+app.put('/api/data', async (req, res) => {
   const { data } = req.body;
   if (!data) {
     return res.status(400).json({ success: false, message: '缺少 data 字段' });
   }
-  saveData(data);
-  res.json({ success: true });
+  await saveData(data);
+  res.json({ success: true, backup: isBackupConfigured() ? 'github' : 'local' });
 });
 
 // 所有其他路由返回 index.html（SPA 支持）

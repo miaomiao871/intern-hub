@@ -42,6 +42,7 @@ export default function App() {
   const [data, setData] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [backupType, setBackupType] = useState('local'); // 'github' | 'local'
 
   // 启动时从 API 获取数据，失败则 fallback 到 localStorage 或初始数据
   useEffect(() => {
@@ -53,6 +54,7 @@ export default function App() {
         if (res.success && res.data) {
           const d = migrateData(res.data);
           setData(d);
+          setBackupType(res.backup || 'local');
           try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch {}
         } else {
           const local = loadLocal();
@@ -80,7 +82,12 @@ export default function App() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data: next }),
-      }).catch(() => {});
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.backup === 'github') setBackupType('github');
+        })
+        .catch(() => {});
       return next;
     });
   }, []);
@@ -106,7 +113,11 @@ export default function App() {
             <span className="text-sm font-bold text-brand-700">InternHub</span>
             <span className="text-[10px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-full">v3.0</span>
           </div>
-          <span className="text-[10px] text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">云同步</span>
+          {backupType === 'github' ? (
+            <span className="text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-full" title="数据自动备份到 GitHub">☁️ 已备份</span>
+          ) : (
+            <span className="text-[10px] text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">云同步</span>
+          )}
           <button
             onClick={() => setIsAdmin(!isAdmin)}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors"
