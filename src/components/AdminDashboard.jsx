@@ -28,6 +28,11 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
   const currentTab = tabs.find((t) => t.id === activeTabId);
   const currentItems = currentTab ? currentTab.items : [];
 
+  // 根据板块类型决定编辑表单显示哪些字段
+  const tabLabel = currentTab?.label || '';
+  const showRoleField = !tabLabel.includes('第一天干什么') && !tabLabel.includes('怎么办');
+  const showStepsField = !tabLabel.includes('第一天干什么');
+
   // ─── Tab CRUD ───
 
   const startNewTab = () => {
@@ -387,6 +392,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
               </div>
 
               {/* 角色（用于人员卡片） */}
+              {showRoleField && (
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">角色 / 职务 <span className="text-slate-300 font-normal">（填写后前台显示为人名卡片风格）</span></label>
                 <input
@@ -396,6 +402,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                   placeholder="如：团队领导（留空则显示为通用卡片）"
                 />
               </div>
+              )}
 
               {/* 内容 */}
               <div>
@@ -409,6 +416,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
               </div>
 
               {/* 操作步骤 */}
+              {showStepsField && (
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1">操作步骤（每行一步，可选） <span className="text-slate-300 font-normal">填写后前台显示为可展开的手风琴</span></label>
                 <textarea
@@ -418,6 +426,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                   placeholder="第一步...&#10;第二步..."
                 />
               </div>
+              )}
 
               {/* 多链接编辑器 */}
               <div>
