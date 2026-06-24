@@ -221,53 +221,6 @@
           "links": []
         }
       ]
-    },
-    {
-      "id": 4,
-      "label": "🤝 交接工作",
-      "items": [
-        {
-          "id": 1,
-          "title": "📊 日报周报填写规范",
-          "content": "每天下班前在 iCenter 填写工作日报，每周五下班前提交周报。日报需包含今日完成、明日计划、遇到问题三项。",
-          "links": [
-            {
-              "text": "iCenter 日报入口",
-              "url": "https://icenter.zte.com.cn/daily"
-            },
-            {
-              "text": "周报模板下载",
-              "url": "https://share.zte.com.cn/weekly-template"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "title": "🗂️ 项目文档归档规范",
-          "content": "项目文档需统一归档到 Confluence 对应目录，命名规则：<项目名>_<文档类型>_<日期>。设计稿和需求文档必须经 review 后才能归档。",
-          "links": [
-            {
-              "text": "Confluence 文档目录",
-              "url": "https://wiki.zte.com.cn/projects"
-            },
-            {
-              "text": "文档命名规范说明",
-              "url": "https://wiki.zte.com.cn/naming-guide"
-            }
-          ]
-        },
-        {
-          "id": 3,
-          "title": "🔑 系统权限移交清单",
-          "content": "实习结束前需将以下系统权限移交回导师或指定同事：GitLab 仓库权限、JIRA 项目权限、测试环境账号。请填写权限移交申请表。",
-          "links": [
-            {
-              "text": "权限移交申请表",
-              "url": "https://it.zte.com.cn/permission-transfer"
-            }
-          ]
-        }
-      ]
     }
   ]
 }
