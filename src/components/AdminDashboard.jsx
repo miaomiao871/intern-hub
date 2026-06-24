@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 export default function AdminDashboard({ data, setData, onBack, activeCity }) {
   const tabs = data.tabs || [];
   const [activeTabId, setActiveTabId] = useState(tabs.length > 0 ? tabs[0].id : null);
-  const [editingTab, setEditingTab] = useState(null); // { id } for rename, or 'new'
+  const [editingTab, setEditingTab] = useState(null);
   const [tabNameInput, setTabNameInput] = useState('');
   const [showItemForm, setShowItemForm] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [toast, setToast] = useState(null);
+  const [undoInfo, setUndoInfo] = useState(null);
+  const [saveStatus, setSaveStatus] = useState('idle'); // 'idle' | 'saving' | 'saved'
+  const saveTimerRef = useRef(null);
 
   const defaultItem = { title: '', content: '', role: '', steps: '', links: [] };
   const [itemForm, setItemForm] = useState(defaultItem);
@@ -20,10 +23,20 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
     quickTags: (data.settings?.quickTags || []).join('，'),
   });
 
+  const UNDO_TIMEOUT = 10000;
+
   const showToast = (msg) => {
     setToast(msg);
+    if (msg.includes('保存')) markSaving();
     setTimeout(() => setToast(null), 2500);
   };
+
+  // 保存时显示状态
+  const markSaving = useCallback(() => {
+    setSaveStatus('saving');
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => setSaveStatus('saved'), 600);
+  }, []);
 
   const currentTab = tabs.find((t) => t.id === activeTabId);
   const currentItems = currentTab ? currentTab.items : [];
@@ -69,7 +82,9 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
   const deleteTab = (id) => {
     const tab = tabs.find((t) => t.id === id);
     if (!tab) return;
-    if (!window.confirm(`确定要删除「${tab.label}」吗？里面的 ${tab.items.length} 条内容也会一起删除。`)) return;
+    // 保存备份用于撤销
+    const backup = { type: 'tab', data: JSON.parse(JSON.stringify(tab)), index: tabs.findIndex((t) => t.id === id) };
+    // 执行删除
     setData((prev) => ({
       ...prev,
       tabs: prev.tabs.filter((t) => t.id !== id),
@@ -78,6 +93,36 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
       const remaining = tabs.filter((t) => t.id !== id);
       setActiveTabId(remaining.length > 0 ? remaining[0].id : null);
     }
+    markSaving();
+    // 显示撤销
+    clearTimeout(undoInfo?.timeoutId);
+    const timeoutId = setTimeout(() => setUndoInfo(null), UNDO_TIMEOUT);
+    setUndoInfo({ message: `已删除「${tab.label}」`, backup, timeoutId });
+  };
+
+  const undoDelete = () => {
+    if (!undoInfo) return;
+    clearTimeout(undoInfo.timeoutId);
+    const { backup } = undoInfo;
+    if (backup.type === 'tab') {
+      setData((prev) => {
+        const list = [...prev.tabs];
+        list.splice(backup.index, 0, backup.data);
+        return { ...prev, tabs: list };
+      });
+    } else if (backup.type === 'item') {
+      setData((prev) => {
+        const list = [...prev.tabs];
+        const tabIdx = list.findIndex((t) => t.id === backup.tabId);
+        if (tabIdx < 0) return prev;
+        const items = [...list[tabIdx].items];
+        items.splice(backup.index, 0, backup.data);
+        list[tabIdx] = { ...list[tabIdx], items };
+        return { ...prev, tabs: list };
+      });
+    }
+    setUndoInfo(null);
+    showToast('✅ 已恢复');
   };
 
   const moveTab = (id, dir) => {
@@ -162,7 +207,13 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
 
   const deleteItem = (itemId) => {
     if (!activeTabId) return;
-    if (!window.confirm('确定要删除这条内容吗？')) return;
+    const tab = tabs.find((t) => t.id === activeTabId);
+    if (!tab) return;
+    const item = tab.items.find((i) => i.id === itemId);
+    if (!item) return;
+    // 保存备份
+    const backup = { type: 'item', data: JSON.parse(JSON.stringify(item)), tabId: activeTabId, index: tab.items.findIndex((i) => i.id === itemId) };
+    // 执行删除
     setData((prev) => {
       const list = [...prev.tabs];
       const tabIdx = list.findIndex((t) => t.id === activeTabId);
@@ -171,6 +222,11 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
       list[tabIdx] = tab;
       return { ...prev, tabs: list };
     });
+    markSaving();
+    // 显示撤销
+    clearTimeout(undoInfo?.timeoutId);
+    const timeoutId = setTimeout(() => setUndoInfo(null), UNDO_TIMEOUT);
+    setUndoInfo({ message: `已删除「${item.title || item.name || '无标题'}」`, backup, timeoutId });
   };
 
   const moveItem = (index, dir) => {
@@ -465,10 +521,28 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
         </div>
       )}
 
-      {/* Toast */}
-      {toast && (
-        <div className="fixed bottom-6 right-6 z-[999] bg-slate-800 text-white px-5 py-2.5 rounded-xl text-sm shadow-lg animate-fade-in">{toast}</div>
-      )}
+      {/* 底部状态栏 */}
+      <div className="fixed bottom-4 right-4 z-[999] flex flex-col items-end gap-2">
+        {/* 撤销提示 */}
+        {undoInfo && (
+          <div className="bg-amber-600 text-white px-5 py-2.5 rounded-xl text-sm shadow-lg flex items-center gap-4 animate-fade-in">
+            <span>{undoInfo.message}</span>
+            <button onClick={undoDelete} className="font-bold underline whitespace-nowrap hover:text-amber-100">撤销</button>
+          </div>
+        )}
+        {/* 保存状态 */}
+        {saveStatus !== 'idle' && (
+          <div className={`px-4 py-1.5 rounded-xl text-xs shadow-lg ${
+            saveStatus === 'saving' ? 'bg-slate-700 text-slate-300' : 'bg-emerald-600 text-white'
+          }`}>
+            {saveStatus === 'saving' ? '保存中...' : '已保存 ✓'}
+          </div>
+        )}
+        {/* Toast */}
+        {toast && (
+          <div className="bg-slate-800 text-white px-5 py-2.5 rounded-xl text-sm shadow-lg animate-fade-in">{toast}</div>
+        )}
+      </div>
     </div>
   );
 }

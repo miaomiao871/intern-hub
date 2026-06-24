@@ -12,12 +12,16 @@ function fuzzyMatch(text, keyword) {
   return ki === kw.length;
 }
 
-export default function StudentView({ data }) {
+export default function StudentView({ data, activeCity }) {
   const tabs = data.tabs || [];
   const [activeTab, setActiveTab] = useState(tabs.length > 0 ? tabs[0].id : null);
   const [search, setSearch] = useState('');
   const [doneSet, setDoneSet] = useState(new Set());
   const [expandedItem, setExpandedItem] = useState(null);
+
+  const isChangsha = activeCity === 'changsha';
+  const accentBg = isChangsha ? 'bg-teal-600' : 'bg-brand-600';
+  const accentText = isChangsha ? 'text-teal-700' : 'text-brand-700';
 
   const itemKey = (tabId, itemId) => `${tabId}-${itemId}`;
 
@@ -63,10 +67,14 @@ export default function StudentView({ data }) {
     <div className="max-w-4xl mx-auto px-4 py-6 md:py-10">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">
-          {settings.siteTitle || '🚀 平台导航'}
-          <span className="ml-2 text-sm font-normal text-slate-400">InternHub</span>
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">
+            {settings.siteTitle || '🚀 平台导航'}
+          </h1>
+          <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${isChangsha ? 'bg-teal-50 text-teal-700' : 'bg-brand-50 text-brand-700'}`}>
+            {isChangsha ? '长沙' : '武汉'}
+          </span>
+        </div>
         <p className="text-sm text-slate-500 mt-1">{settings.siteSubtitle}</p>
       </div>
 
@@ -108,13 +116,15 @@ export default function StudentView({ data }) {
       {/* Dynamic Tabs (hidden when searching) */}
       {!hasSearch && tabs.length > 0 && (
         <div className="flex gap-1 mb-5 bg-white rounded-xl border border-slate-200 p-1 shadow-sm overflow-x-auto">
-          {tabs.map((t) => (
+          {tabs.map((t) => {
+            const doneCount = t.items.filter(item => doneSet.has(itemKey(t.id, item.id))).length;
+            return (
             <button
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               className={`flex-1 min-w-0 px-3 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-all ${
                 activeTab === t.id
-                  ? 'bg-brand-600 text-white shadow-sm'
+                  ? `${isChangsha ? 'bg-teal-600' : 'bg-brand-600'} text-white shadow-sm`
                   : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -122,10 +132,11 @@ export default function StudentView({ data }) {
               <span className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${
                 activeTab === t.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400'
               }`}>
-                {t.items.length}
+                {doneCount > 0 ? `${doneCount}/${t.items.length}` : t.items.length}
               </span>
             </button>
-          ))}
+            );
+          })}
         </div>
       )}
 

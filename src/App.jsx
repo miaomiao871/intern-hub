@@ -186,7 +186,7 @@ export default function App() {
               onClick={() => setIsAdmin(!isAdmin)}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors"
             >
-              {isAdmin ? (<><ArrowLeft size={14} /> 返回前台</>) : (<><Settings size={14} /> Admin</>)}
+              {isAdmin ? (<><ArrowLeft size={14} /> 返回前台</>) : (<><Settings size={14} /> 设置</>)}
             </button>
           </div>
         </div>
@@ -195,7 +195,7 @@ export default function App() {
         {isAdmin ? (
           <AdminDashboard data={currentCityData} setData={setCurrentCityData} onBack={() => setIsAdmin(false)} activeCity={currentCity} />
         ) : (
-          <StudentView data={currentCityData} />
+          <StudentView data={currentCityData} activeCity={currentCity} />
         )}
       </main>
     </div>
