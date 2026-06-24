@@ -1,4 +1,4 @@
-const initialData = {
+const wuhanData = {
   settings: {
     siteTitle: '🚀 华中平台实习生导航',
     siteSubtitle: '别焦虑，第一天该干啥都给你整明白了 👇',
@@ -48,6 +48,24 @@ const initialData = {
       ],
     },
   ],
+};
+
+const changshaData = {
+  settings: {
+    siteTitle: '🚀 长沙平台实习生导航',
+    siteSubtitle: '长沙实习生专属指南，点击切换 👆',
+    quickTags: [],
+  },
+  tabs: [],
+};
+
+// 城市数据映射
+const initialData = {
+  activeCity: 'wuhan',
+  cities: {
+    wuhan: wuhanData,
+    changsha: changshaData,
+  },
 };
 
 export default initialData;

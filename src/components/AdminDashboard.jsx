@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function AdminDashboard({ data, setData, onBack }) {
+export default function AdminDashboard({ data, setData, onBack, activeCity }) {
   const tabs = data.tabs || [];
   const [activeTabId, setActiveTabId] = useState(tabs.length > 0 ? tabs[0].id : null);
   const [editingTab, setEditingTab] = useState(null); // { id } for rename, or 'new'
@@ -205,7 +205,10 @@ export default function AdminDashboard({ data, setData, onBack }) {
       <div className="w-full md:w-64 shrink-0 bg-white border-b md:border-b-0 md:border-r border-slate-200 p-4 overflow-y-auto">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-slate-600 uppercase tracking-wider">板块管理</h2>
-          <button onClick={onBack} className="text-xs text-brand-600 hover:text-brand-800 font-medium">返回前台 →</button>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full font-medium">{activeCity === 'wuhan' ? '武汉' : '长沙'}</span>
+            <button onClick={onBack} className="text-xs text-brand-600 hover:text-brand-800 font-medium">返回前台 →</button>
+          </div>
         </div>
         <button onClick={startNewTab} className="w-full mb-3 px-3 py-2 bg-brand-600 text-white text-sm font-medium rounded-xl hover:bg-brand-700 transition-colors flex items-center justify-center gap-1">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>

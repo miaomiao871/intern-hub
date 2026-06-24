@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, ExternalLink, ChevronDown, ChevronUp, Hash } from 'lucide-react';
+import { Search, ExternalLink, Hash } from 'lucide-react';
 
 function fuzzyMatch(text, keyword) {
   if (!keyword) return true;
@@ -17,7 +17,6 @@ export default function StudentView({ data }) {
   const [activeTab, setActiveTab] = useState(tabs.length > 0 ? tabs[0].id : null);
   const [search, setSearch] = useState('');
   const [doneSet, setDoneSet] = useState(new Set());
-  const [expandedItem, setExpandedItem] = useState(null);
 
   const itemKey = (tabId, itemId) => `${tabId}-${itemId}`;
 
@@ -192,7 +191,6 @@ export default function StudentView({ data }) {
     const key = itemKey(tabId, item.id);
     const done = doneSet.has(key);
     const hasSteps = item.steps && item.steps.length > 0;
-    const isExpanded = expandedItem === key;
 
     // 人员卡片风格（如果 item 有 role 字段）
     if (item.role && !isSearchResult) {
@@ -215,54 +213,36 @@ export default function StudentView({ data }) {
       );
     }
 
-    // 带步骤的展开卡片（支持勾选 + 展开，互不干扰）
+    // 带步骤的卡片（始终展开，支持勾选）
     if (hasSteps) {
       return (
-        <div key={item.id} className={`bg-white rounded-xl border overflow-hidden transition-all ${done ? 'border-green-200 bg-green-50/40' : 'border-slate-200 hover:border-brand-200'}`}>
-          <div className="flex items-start gap-3 px-4 py-3.5">
+        <div key={item.id} className={`bg-white rounded-xl border ${done ? 'border-green-200 bg-green-50/40' : 'border-slate-200 hover:border-brand-200'} p-4 transition-all ${!isSearchResult ? 'cursor-pointer' : ''}`}
+          onClick={() => !isSearchResult && toggleDone(tabId, item.id)}>
+          <div className="flex items-start gap-3">
             {/* 勾选圆圈 */}
             {!isSearchResult && (
-              <div onClick={() => toggleDone(tabId, item.id)} className="cursor-pointer shrink-0 mt-0.5">
-                {done
-                  ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                  : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/></svg>
-                }
-              </div>
+              done
+                ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/></svg>
             )}
-            {/* 标题 + 展开区 */}
             <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-2">
-                <h3
-                  className={`text-sm font-semibold cursor-pointer ${done ? 'text-slate-400 line-through' : 'text-slate-800'}`}
-                  onClick={() => !isSearchResult && toggleDone(tabId, item.id)}
-                >{item.title}</h3>
-                <button
-                  onClick={(e) => { e.stopPropagation(); setExpandedItem(isExpanded ? null : key); }}
-                  className="shrink-0 p-0.5 rounded hover:bg-slate-100 text-slate-400"
-                >
-                  {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                </button>
-              </div>
-              <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[800px] mt-3' : 'max-h-0'}`}>
-                <div className="space-y-3">
-                  <p className="text-xs text-slate-500 leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
-                  <ol className="space-y-2">
-                    {(item.steps || []).map((step, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-600">
-                        <span className="w-5 h-5 rounded-full bg-brand-100 text-brand-700 text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">{idx + 1}</span>
-                        {step}
-                      </li>
-                    ))}
-                  </ol>
-                  {item.links && item.links.length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      {item.links.map((link, idx) => link.url ? (
-                        <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-700" onClick={(e) => e.stopPropagation()}>{link.text}<ExternalLink size={11} /></a>
-                      ) : null)}
-                    </div>
-                  )}
+              <h3 className={`text-sm font-semibold ${done ? 'text-slate-400 line-through' : 'text-slate-800'}`}>{item.title}</h3>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
+              <ol className="space-y-2 mt-3">
+                {(item.steps || []).map((step, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-600">
+                    <span className="w-5 h-5 rounded-full bg-brand-100 text-brand-700 text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">{idx + 1}</span>
+                    {step}
+                  </li>
+                ))}
+              </ol>
+              {item.links && item.links.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {item.links.map((link, idx) => link.url ? (
+                    <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 bg-brand-50 hover:bg-brand-100 px-2.5 py-1 rounded-lg transition-colors" onClick={(e) => e.stopPropagation()}>{link.text}<ExternalLink size={11} /></a>
+                  ) : null)}
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
