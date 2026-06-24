@@ -203,7 +203,7 @@ export default function StudentView({ data }) {
           </div>
           <h3 className="text-sm font-semibold text-slate-800">{item.title}</h3>
           <p className="text-xs font-medium text-brand-600 mt-0.5">{item.role}</p>
-          <p className="text-xs text-slate-500 mt-2 leading-relaxed">{item.content}</p>
+          <p className="text-xs text-slate-500 mt-2 leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
           {item.links && item.links.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-3">
               {item.links.map((link, idx) => (
@@ -215,32 +215,54 @@ export default function StudentView({ data }) {
       );
     }
 
-    // 带步骤的展开卡片（搜索和普通视图都支持展开）
+    // 带步骤的展开卡片（支持勾选 + 展开，互不干扰）
     if (hasSteps) {
       return (
-        <div key={item.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:border-brand-200 transition-colors">
-          <button onClick={() => setExpandedItem(isExpanded ? null : key)} className="w-full flex items-center justify-between px-4 py-3.5 text-left">
-            <span className="text-sm font-semibold text-slate-800">{item.title}</span>
-            {isExpanded ? <ChevronUp size={18} className="text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-slate-400 shrink-0" />}
-          </button>
-          <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[800px]' : 'max-h-0'}`}>
-            <div className="px-4 pb-4 space-y-3">
-              <p className="text-xs text-slate-500 leading-relaxed">{item.content}</p>
-              <ol className="space-y-2">
-                {(item.steps || []).map((step, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-600">
-                    <span className="w-5 h-5 rounded-full bg-brand-100 text-brand-700 text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">{idx + 1}</span>
-                    {step}
-                  </li>
-                ))}
-              </ol>
-              {item.links && item.links.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {item.links.map((link, idx) => link.url ? (
-                    <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-700">{link.text}<ExternalLink size={11} /></a>
-                  ) : null)}
+        <div key={item.id} className={`bg-white rounded-xl border overflow-hidden transition-all ${done ? 'border-green-200 bg-green-50/40' : 'border-slate-200 hover:border-brand-200'}`}>
+          <div className="flex items-start gap-3 px-4 py-3.5">
+            {/* 勾选圆圈 */}
+            {!isSearchResult && (
+              <div onClick={() => toggleDone(tabId, item.id)} className="cursor-pointer shrink-0 mt-0.5">
+                {done
+                  ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/></svg>
+                }
+              </div>
+            )}
+            {/* 标题 + 展开区 */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2">
+                <h3
+                  className={`text-sm font-semibold cursor-pointer ${done ? 'text-slate-400 line-through' : 'text-slate-800'}`}
+                  onClick={() => !isSearchResult && toggleDone(tabId, item.id)}
+                >{item.title}</h3>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setExpandedItem(isExpanded ? null : key); }}
+                  className="shrink-0 p-0.5 rounded hover:bg-slate-100 text-slate-400"
+                >
+                  {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                </button>
+              </div>
+              <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[800px] mt-3' : 'max-h-0'}`}>
+                <div className="space-y-3">
+                  <p className="text-xs text-slate-500 leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
+                  <ol className="space-y-2">
+                    {(item.steps || []).map((step, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-600">
+                        <span className="w-5 h-5 rounded-full bg-brand-100 text-brand-700 text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">{idx + 1}</span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                  {item.links && item.links.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {item.links.map((link, idx) => link.url ? (
+                        <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-700" onClick={(e) => e.stopPropagation()}>{link.text}<ExternalLink size={11} /></a>
+                      ) : null)}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -262,7 +284,7 @@ export default function StudentView({ data }) {
           )}
           <div className="flex-1 min-w-0">
             <h3 className={`text-sm font-semibold ${done ? 'text-slate-400 line-through' : 'text-slate-800'}`}>{item.title}</h3>
-            <p className={`text-xs mt-1 leading-relaxed ${done ? 'text-slate-400' : 'text-slate-500'}`}>{item.content}</p>
+            <p className={`text-xs mt-1 leading-relaxed ${done ? 'text-slate-400' : 'text-slate-500'}`} style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
             {item.links && item.links.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-3">
                 {item.links.map((link, idx) => link.url ? (
