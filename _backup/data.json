@@ -47,8 +47,30 @@
         },
         {
           "id": 1782262641369,
-          "title": "查看并学习实习生landing指引",
-          "content": "了解工作各板块，熟悉各项事务应该找谁办理"
+          "title": "浏览入职指引事项",
+          "content": "",
+          "steps": [
+            "1、关注重点空间",
+            "2、阅读入职指导页面"
+          ],
+          "links": [
+            {
+              "text": "华中平台",
+              "url": "https://i.zte.com.cn/index/ispace/#/space/e8ab1243e3224e478c480f57225d9ef4/wiki/page/a29686c58afc4834b683728bd03f1d38/view"
+            },
+            {
+              "text": "中兴通讯招聘",
+              "url": "https://i.zte.com.cn/index/ispace/#/space/907949f608fa4306ad501f262e595347/wiki/page/e9f7307126ef49e3855b41fa494ad1b3/view"
+            },
+            {
+              "text": "新员工入职指引",
+              "url": "https://i.zte.com.cn/index/ispace/#/space/0627840098e64e20919b1633a35c1860/wiki/page/b47ce861ada8459e8b3b6b6e39ff2728/view"
+            },
+            {
+              "text": "icenter官方空间",
+              "url": "https://i.zte.com.cn/index/ispace/#/space/69d0a155f72a41d6bf36740b011f33b7/wiki/page/b2bdd4ea106148e38238f4342dee4c20/view"
+            }
+          ]
         }
       ]
     },
