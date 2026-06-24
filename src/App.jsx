@@ -151,14 +151,14 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 font-cute">
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between gap-2">
           {/* 左侧：Logo + 城市切换 */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-bold text-brand-700">InternHub</span>
             {/* 城市切换按钮 */}
-            <div className="flex bg-slate-100 rounded-lg p-0.5">
+            <div className="flex bg-slate-100 rounded-3xl p-0.5">
               {Object.entries(CITY_NAMES).map(([key, label]) => (
                 <button
                   key={key}
@@ -184,7 +184,7 @@ export default function App() {
             )}
             <button
               onClick={() => setIsAdmin(!isAdmin)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-3xl transition-colors"
             >
               {isAdmin ? (<><ArrowLeft size={14} /> 返回前台</>) : (<><Settings size={14} /> 设置</>)}
             </button>

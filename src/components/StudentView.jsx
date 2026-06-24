@@ -86,7 +86,7 @@ export default function StudentView({ data, activeCity }) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="搜一下——找人、问流程、查事项..."
-          className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 shadow-sm transition-shadow"
+          className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300 shadow-sm transition-shadow"
         />
       </div>
 
@@ -115,14 +115,14 @@ export default function StudentView({ data, activeCity }) {
 
       {/* Dynamic Tabs (hidden when searching) */}
       {!hasSearch && tabs.length > 0 && (
-        <div className="flex gap-1 mb-5 bg-white rounded-xl border border-slate-200 p-1 shadow-sm overflow-x-auto">
+        <div className="flex gap-1 mb-5 bg-white rounded-2xl border border-slate-200 p-1 shadow-sm overflow-x-auto">
           {tabs.map((t) => {
             const doneCount = t.items.filter(item => doneSet.has(itemKey(t.id, item.id))).length;
             return (
             <button
               key={t.id}
               onClick={() => setActiveTab(t.id)}
-              className={`flex-1 min-w-0 px-3 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-all ${
+              className={`flex-1 min-w-0 px-3 py-2 text-sm font-medium rounded-3xl whitespace-nowrap transition-all ${
                 activeTab === t.id
                   ? `${isChangsha ? 'bg-teal-600' : 'bg-brand-600'} text-white shadow-sm`
                   : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
@@ -215,7 +215,7 @@ export default function StudentView({ data, activeCity }) {
     // 人员卡片风格（如果 item 有 role 字段）
     if (item.role && !isSearchResult) {
       return (
-        <div key={item.id} className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm hover:border-brand-200 transition-all">
+        <div key={item.id} className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-sm hover:border-brand-200 transition-all">
           <div className="w-10 h-10 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center text-sm font-bold mb-3">
             {item.title ? item.title[0] : '?'}
           </div>
@@ -225,7 +225,7 @@ export default function StudentView({ data, activeCity }) {
           {item.links && item.links.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-3">
               {item.links.map((link, idx) => (
-                <span key={idx} className="inline-flex items-center gap-1 text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded-lg">{link.text}</span>
+                <span key={idx} className="inline-flex items-center gap-1 text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded-3xl">{link.text}</span>
               ))}
             </div>
           )}
@@ -236,7 +236,7 @@ export default function StudentView({ data, activeCity }) {
     // ─── "怎么办"板块：折叠样式 ───
     if (foldable) {
       return (
-        <div key={item.id} className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:border-brand-200 transition-colors">
+        <div key={item.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-brand-200 hover:-translate-y-0.5 transition-all duration-200">
           <button onClick={() => setExpandedItem(isExpanded ? null : key)} className="w-full flex items-center justify-between px-4 py-3.5 text-left">
             <span className="text-sm font-semibold text-slate-800">{item.title}</span>
             {isExpanded ? <ChevronUp size={18} className="text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-slate-400 shrink-0" />}
@@ -271,13 +271,13 @@ export default function StudentView({ data, activeCity }) {
     return (
       <div
         key={item.id}
-        className={`bg-white rounded-xl border ${done ? 'border-green-200 bg-green-50/40' : 'border-slate-200'} p-4 transition-all hover:shadow-sm ${!isSearchResult ? 'cursor-pointer' : ''}`}
+        className={`bg-white rounded-2xl border ${done ? 'border-green-200 bg-green-50/40' : 'border-slate-200'} p-4 transition-all hover:shadow-sm ${!isSearchResult ? 'cursor-pointer' : ''}`}
         onClick={() => !isSearchResult && toggleDone(tabId, item.id)}
       >
         <div className="flex items-start gap-3">
           {!isSearchResult && (
             done
-              ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5 animate-pop"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/></svg>
           )}
           <div className="flex-1 min-w-0">
@@ -296,11 +296,11 @@ export default function StudentView({ data, activeCity }) {
             {item.links && item.links.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-3">
                 {item.links.map((link, idx) => link.url ? (
-                  <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 bg-brand-50 hover:bg-brand-100 px-2.5 py-1 rounded-lg transition-colors" onClick={(e) => e.stopPropagation()}>
+                  <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-brand-600 bg-brand-50 hover:bg-brand-100 px-2.5 py-1 rounded-3xl transition-colors" onClick={(e) => e.stopPropagation()}>
                     {link.text}<ExternalLink size={11} />
                   </a>
                 ) : (
-                  <span key={idx} className="inline-flex items-center gap-1 text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded-lg">{link.text}</span>
+                  <span key={idx} className="inline-flex items-center gap-1 text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded-3xl">{link.text}</span>
                 ))}
               </div>
             )}

@@ -271,45 +271,45 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
             <button onClick={onBack} className="text-xs text-brand-600 hover:text-brand-800 font-medium">返回前台 →</button>
           </div>
         </div>
-        <button onClick={startNewTab} className="w-full mb-3 px-3 py-2 bg-brand-600 text-white text-sm font-medium rounded-xl hover:bg-brand-700 transition-colors flex items-center justify-center gap-1">
+        <button onClick={startNewTab} className="w-full mb-3 px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-full hover:bg-brand-700 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           新增板块
         </button>
 
         {/* 新增板块输入框 */}
         {editingTab === 'new' && (
-          <div className="mb-3 bg-brand-50 rounded-xl p-3 border border-brand-200">
+          <div className="mb-3 bg-brand-50 rounded-2xl p-3 border border-brand-200">
             <input
               type="text" value={tabNameInput}
               onChange={(e) => setTabNameInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && saveTabName()}
-              className="w-full px-2.5 py-1.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 mb-2"
+              className="w-full px-2.5 py-1.5 border border-slate-200 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300 mb-2"
               placeholder="输入板块名称..."
               autoFocus
             />
             <div className="flex gap-1.5">
-              <button onClick={saveTabName} className="flex-1 px-2 py-1 text-xs font-medium bg-brand-600 text-white rounded-lg hover:bg-brand-700">确定</button>
-              <button onClick={() => setEditingTab(null)} className="flex-1 px-2 py-1 text-xs font-medium border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50">取消</button>
+              <button onClick={saveTabName} className="flex-1 px-2 py-1 text-xs font-medium bg-brand-600 text-white rounded-3xl hover:bg-brand-700">确定</button>
+              <button onClick={() => setEditingTab(null)} className="flex-1 px-2 py-1 text-xs font-medium border border-slate-200 rounded-3xl text-slate-500 hover:bg-slate-50">取消</button>
             </div>
           </div>
         )}
 
         <div className="space-y-1">
           {tabs.map((t, idx) => (
-            <div key={t.id} className={`rounded-xl ${activeTabId === t.id ? 'bg-brand-50 ring-1 ring-brand-200' : 'hover:bg-slate-50'}`}>
+            <div key={t.id} className={`rounded-2xl ${activeTabId === t.id ? 'bg-brand-50 ring-1 ring-brand-200' : 'hover:bg-slate-50'}`}>
               {editingTab === t.id ? (
                 <div className="p-2 space-y-2">
                   <input
                     type="text" value={tabNameInput}
                     onChange={(e) => setTabNameInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && saveTabName()}
-                    className="w-full px-2.5 py-1.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400"
+                    className="w-full px-2.5 py-1.5 border border-slate-200 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300"
                     placeholder="Tab 名称"
                     autoFocus
                   />
                   <div className="flex gap-1.5">
-                    <button onClick={saveTabName} className="flex-1 px-2 py-1 text-xs font-medium bg-brand-600 text-white rounded-lg hover:bg-brand-700">确定</button>
-                    <button onClick={() => setEditingTab(null)} className="flex-1 px-2 py-1 text-xs font-medium border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50">取消</button>
+                    <button onClick={saveTabName} className="flex-1 px-2 py-1 text-xs font-medium bg-brand-600 text-white rounded-3xl hover:bg-brand-700">确定</button>
+                    <button onClick={() => setEditingTab(null)} className="flex-1 px-2 py-1 text-xs font-medium border border-slate-200 rounded-3xl text-slate-500 hover:bg-slate-50">取消</button>
                   </div>
                 </div>
               ) : (
@@ -342,7 +342,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
         {/* 页面设置按钮 */}
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className={`w-full mt-4 px-3 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-1.5 ${
+          className={`w-full mt-4 px-3 py-2 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-1.5 ${
             showSettings ? 'bg-brand-50 text-brand-700 ring-1 ring-brand-200' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
           }`}
         >
@@ -358,23 +358,23 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
         {showSettings && (
           <div>
             <h3 className="text-lg font-semibold text-slate-800 mb-4">⚙ 页面设置</h3>
-            <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-5 max-w-xl">
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-5 max-w-xl">
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">网站标题</label>
-                <input type="text" value={settingsForm.siteTitle} onChange={(e) => handleSettingsChange('siteTitle', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400" placeholder="如：🚀 华中平台实习生导航" />
+                <input type="text" value={settingsForm.siteTitle} onChange={(e) => handleSettingsChange('siteTitle', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300" placeholder="如：🚀 华中平台实习生导航" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">网站副标题</label>
-                <input type="text" value={settingsForm.siteSubtitle} onChange={(e) => handleSettingsChange('siteSubtitle', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400" placeholder="如：别焦虑，第一天该干啥都给你整明白了 👇" />
+                <input type="text" value={settingsForm.siteSubtitle} onChange={(e) => handleSettingsChange('siteSubtitle', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300" placeholder="如：别焦虑，第一天该干啥都给你整明白了 👇" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">快捷标签（用中文逗号或换行分隔）</label>
-                <textarea rows={4} value={settingsForm.quickTags} onChange={(e) => handleSettingsChange('quickTags', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 resize-none" placeholder="发快递，考勤补单，打印，VPN安装，大文件传输，忘带工卡" />
+                <textarea rows={4} value={settingsForm.quickTags} onChange={(e) => handleSettingsChange('quickTags', e.target.value)} className="w-full px-3 py-2 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300 resize-none" placeholder="发快递，考勤补单，打印，VPN安装，大文件传输，忘带工卡" />
                 <p className="text-xs text-slate-400 mt-1.5">当前 {settingsForm.quickTags.split(/[，,、\n]/).filter(Boolean).length} 个标签</p>
               </div>
               <div className="flex gap-3 pt-1">
-                <button onClick={() => setSettingsForm({ siteTitle: data.settings?.siteTitle || '', siteSubtitle: data.settings?.siteSubtitle || '', quickTags: (data.settings?.quickTags || []).join('，') })} className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors">重置</button>
-                <button onClick={handleSettingsSave} className="px-5 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-medium hover:bg-brand-700 transition-colors">保存设置</button>
+                <button onClick={() => setSettingsForm({ siteTitle: data.settings?.siteTitle || '', siteSubtitle: data.settings?.siteSubtitle || '', quickTags: (data.settings?.quickTags || []).join('，') })} className="px-4 py-2.5 border border-slate-200 rounded-2xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors">重置</button>
+                <button onClick={handleSettingsSave} className="px-5 py-2.5 bg-brand-600 text-white rounded-2xl text-sm font-medium hover:bg-brand-700 hover:-translate-y-0.5 transition-all duration-200">保存设置</button>
               </div>
             </div>
 
@@ -386,7 +386,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
           <>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-slate-800">{currentTab.label} <span className="text-sm font-normal text-slate-400">({currentItems.length} 条内容)</span></h3>
-              <button onClick={openNewItem} className="flex items-center gap-1.5 px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-xl hover:bg-brand-700 transition-colors">
+              <button onClick={openNewItem} className="flex items-center gap-1.5 px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-2xl hover:bg-brand-700 hover:-translate-y-0.5 transition-all duration-200">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 新增卡片
               </button>
@@ -394,7 +394,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
 
             <div className="space-y-2">
               {currentItems.map((item, idx) => (
-                <div key={item.id} className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-start justify-between gap-3 hover:border-brand-200 transition-colors">
+                <div key={item.id} className="bg-white rounded-2xl border border-slate-200 px-4 py-3 flex items-start justify-between gap-3 hover:border-brand-200 hover:-translate-y-0.5 transition-all duration-200">
                   <div className="flex items-center gap-2 shrink-0">
                     <button onClick={() => moveItem(idx, 'up')} disabled={idx === 0} className="p-0.5 rounded hover:bg-slate-100 disabled:opacity-20 disabled:cursor-not-allowed" title="上移">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="18 15 12 9 6 15"/></svg>
@@ -410,8 +410,8 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                     </p>
                   </div>
                   <div className="flex gap-1 shrink-0">
-                    <button onClick={() => openEditItem(item)} className="px-3 py-1.5 text-xs font-medium text-brand-600 bg-brand-50 hover:bg-brand-100 rounded-lg transition-colors">编辑</button>
-                    <button onClick={() => deleteItem(item.id)} className="px-3 py-1.5 text-xs font-medium text-red-500 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">删除</button>
+                    <button onClick={() => openEditItem(item)} className="px-3 py-1.5 text-xs font-medium text-brand-600 bg-brand-50 hover:bg-brand-100 rounded-3xl transition-colors">编辑</button>
+                    <button onClick={() => deleteItem(item.id)} className="px-3 py-1.5 text-xs font-medium text-red-500 bg-red-50 hover:bg-red-100 rounded-3xl transition-colors">删除</button>
                   </div>
                 </div>
               ))}
@@ -431,7 +431,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
           <div className="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-xl border border-slate-200 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 sticky top-0 bg-white z-10">
               <h2 className="text-lg font-semibold text-slate-800">{editingItem ? '编辑' : '新增'}卡片</h2>
-              <button onClick={() => setShowItemForm(false)} className="p-1 rounded-lg hover:bg-slate-100">
+              <button onClick={() => setShowItemForm(false)} className="p-1 rounded-3xl hover:bg-slate-100">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
@@ -442,7 +442,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                 <input
                   type="text" value={itemForm.title}
                   onChange={(e) => setItemForm((p) => ({ ...p, title: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300"
                   placeholder="卡片标题"
                 />
               </div>
@@ -454,7 +454,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                 <input
                   type="text" value={itemForm.role}
                   onChange={(e) => setItemForm((p) => ({ ...p, role: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300"
                   placeholder="如：团队领导（留空则显示为通用卡片）"
                 />
               </div>
@@ -466,7 +466,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                 <textarea
                   rows={3} value={itemForm.content}
                   onChange={(e) => setItemForm((p) => ({ ...p, content: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 resize-none"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300 resize-none"
                   placeholder="描述文字..."
                 />
               </div>
@@ -478,7 +478,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                 <textarea
                   rows={4} value={itemForm.steps}
                   onChange={(e) => setItemForm((p) => ({ ...p, steps: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 resize-none"
+                  className="w-full px-3 py-2 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300 resize-none"
                   placeholder="第一步...&#10;第二步..."
                 />
               </div>
@@ -495,10 +495,10 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                 </div>
                 <div className="space-y-2">
                   {(itemForm.links || []).map((link, idx) => (
-                    <div key={idx} className="flex items-start gap-2 bg-slate-50 rounded-lg p-2.5">
+                    <div key={idx} className="flex items-start gap-2 bg-slate-50 rounded-3xl p-2.5">
                       <div className="flex-1 space-y-1.5">
-                        <input type="text" value={link.text} onChange={(e) => updateLink(idx, 'text', e.target.value)} className="w-full px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400" placeholder="链接文字" />
-                        <input type="text" value={link.url} onChange={(e) => updateLink(idx, 'url', e.target.value)} className="w-full px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400" placeholder="https://..." />
+                        <input type="text" value={link.text} onChange={(e) => updateLink(idx, 'text', e.target.value)} className="w-full px-2.5 py-1.5 border border-slate-200 rounded-3xl text-xs focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300" placeholder="链接文字" />
+                        <input type="text" value={link.url} onChange={(e) => updateLink(idx, 'url', e.target.value)} className="w-full px-2.5 py-1.5 border border-slate-200 rounded-3xl text-xs focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300" placeholder="https://..." />
                       </div>
                       <button onClick={() => removeLink(idx)} className="p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-500 shrink-0 mt-0.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -513,8 +513,8 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
 
               {/* 按钮 */}
               <div className="flex gap-3 pt-2">
-                <button onClick={() => setShowItemForm(false)} className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors">取消</button>
-                <button onClick={saveItem} className="flex-1 px-4 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-medium hover:bg-brand-700 transition-colors">保存</button>
+                <button onClick={() => setShowItemForm(false)} className="flex-1 px-4 py-2.5 border border-slate-200 rounded-2xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors">取消</button>
+                <button onClick={saveItem} className="flex-1 px-5 py-2.5 bg-brand-600 text-white rounded-full text-sm font-medium hover:bg-brand-700 hover:-translate-y-0.5 transition-all duration-200">保存</button>
               </div>
             </div>
           </div>
@@ -525,14 +525,14 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
       <div className="fixed bottom-4 right-4 z-[999] flex flex-col items-end gap-2">
         {/* 撤销提示 */}
         {undoInfo && (
-          <div className="bg-amber-600 text-white px-5 py-2.5 rounded-xl text-sm shadow-lg flex items-center gap-4 animate-fade-in">
+          <div className="bg-amber-600 text-white px-5 py-2.5 rounded-2xl text-sm shadow-lg flex items-center gap-4 animate-fade-in">
             <span>{undoInfo.message}</span>
             <button onClick={undoDelete} className="font-bold underline whitespace-nowrap hover:text-amber-100">撤销</button>
           </div>
         )}
         {/* 保存状态 */}
         {saveStatus !== 'idle' && (
-          <div className={`px-4 py-1.5 rounded-xl text-xs shadow-lg ${
+          <div className={`px-4 py-1.5 rounded-2xl text-xs shadow-lg ${
             saveStatus === 'saving' ? 'bg-slate-700 text-slate-300' : 'bg-emerald-600 text-white'
           }`}>
             {saveStatus === 'saving' ? '保存中...' : '已保存 ✓'}
@@ -540,7 +540,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
         )}
         {/* Toast */}
         {toast && (
-          <div className="bg-slate-800 text-white px-5 py-2.5 rounded-xl text-sm shadow-lg animate-fade-in">{toast}</div>
+          <div className="bg-slate-800 text-white px-5 py-2.5 rounded-2xl text-sm shadow-lg animate-fade-in">{toast}</div>
         )}
       </div>
     </div>
