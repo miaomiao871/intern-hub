@@ -157,7 +157,7 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between gap-2">
           {/* 左侧：Logo + 城市切换 */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-extrabold text-brand-700">InternHub</span>
+            <span className="text-sm font-extrabold text-slate-700">InternHub</span>
             {/* 城市切换按钮 */}
             <div className="flex bg-slate-100 rounded-3xl p-0.5">
               {Object.entries(CITY_NAMES).map(([key, label]) => (
