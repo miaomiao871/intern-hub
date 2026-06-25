@@ -67,16 +67,17 @@ export default function StudentView({ data, activeCity }) {
   // 武汉暖杏 / 长沙薰衣草紫
   const tabAccent = isChangsha ? 'border-lavender-500 text-lavender-600' : 'border-cream-500 text-[#C47825]';
   const tabBadge = isChangsha ? 'bg-lavender-100' : 'bg-cream-100';
-  // Card theme colors
+  // Card theme colors — 统一嫩绿描边
+  const cardBorder = 'border-[#B9E77D]';
   const personBg = isChangsha
-    ? 'bg-white rounded-2xl border border-lavender-100'
-    : 'bg-[#FFFBF0] rounded-2xl border border-cream-100';
+    ? `bg-white rounded-2xl border ${cardBorder}`
+    : `bg-[#FFFBF0] rounded-2xl border ${cardBorder}`;
   const personAvatar = isChangsha ? 'bg-[#F7CFCD]/40 text-[#D48A8A]' : 'bg-card-pink/40 text-[#D48A8A]';
   const personRole = isChangsha ? 'text-[#E87A7A]' : 'text-[#D48A8A]';
   const personTag = isChangsha ? 'text-lavender-400 bg-lavender-50' : 'text-[#9A9690] bg-cream-50';
   const foldBg = isChangsha
-    ? 'bg-white rounded-2xl border border-lavender-100'
-    : 'bg-[#FFFBF0] rounded-2xl border border-cream-100';
+    ? `bg-white rounded-2xl border ${cardBorder}`
+    : `bg-[#FFFBF0] rounded-2xl border ${cardBorder}`;
   const foldStep = isChangsha ? 'bg-lavender-200 text-lavender-700' : 'bg-card-blue/40 text-[#5A9BB8]';
   const foldChevron = isChangsha ? 'text-lavender-400' : 'text-cream-400';
 
@@ -323,10 +324,10 @@ export default function StudentView({ data, activeCity }) {
     // Checklist card — 白色底
     return (
       <div key={item.id} onClick={() => !isSearchResult && toggleDone(tabId, item.id)}
-        className={`rounded-2xl border p-4 transition-all duration-200 ${
+        className={`rounded-2xl border p-4 transition-all duration-200 border-[#B9E77D] ${
           done
             ? 'bg-cream-100/50 border-cream-200'
-            : `${isChangsha ? 'bg-white border-lavender-100' : 'bg-[#FFFBF0] border-cream-100'} hover:shadow-md hover:-translate-y-0.5 cursor-pointer`
+            : `${isChangsha ? 'bg-white' : 'bg-[#FFFBF0]'} hover:shadow-md hover:-translate-y-0.5 cursor-pointer`
         }`}>
         <div className="flex items-start gap-3">
           {!isSearchResult && (
