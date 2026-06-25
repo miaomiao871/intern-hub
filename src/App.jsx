@@ -152,7 +152,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen font-cute" style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #F9FAFB 30%, #F9FAFB 100%)' }}>
+    <div className="min-h-screen font-cute" style={{ background: isChangsha ? '#F4F7FA' : '#FFFBF5' }}>
       <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-lg border-b border-brand-100">
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between gap-2">
           {/* 左侧：Logo + 城市切换 */}

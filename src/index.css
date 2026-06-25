@@ -5,6 +5,7 @@
 body {
   margin: 0;
   font-family: 'Nunito', 'M PLUS Rounded 1c', 'Inter', 'PingFang SC', system-ui, sans-serif;
+  background: #FFFBF5;
 }
 
 /* Scrollbar */
