@@ -20,10 +20,10 @@ const MORANDI_TAGS_WARM = [
   'bg-lavender-100 text-lavender-600 border-lavender-200',
 ];
 const MORANDI_TAGS_BLUE = [
-  'bg-lake-100 text-lake-600 border-lake-200',
-  'bg-lake-200 text-lake-700 border-lake-300',
-  'bg-sage-100 text-sage-600 border-sage-200',
-  'bg-lavender-100 text-lavender-600 border-lavender-200',
+  'bg-card-activity/30 text-card-activity border-card-activity/40',
+  'bg-card-mood/20 text-card-mood border-card-mood/30',
+  'bg-card-food/30 text-amber-700 border-card-food/40',
+  'bg-card-sleep/20 text-card-sleep border-card-sleep/30',
 ];
 
 export default function StudentView({ data, activeCity }) {
@@ -35,16 +35,21 @@ export default function StudentView({ data, activeCity }) {
 
   const isChangsha = activeCity === 'changsha';
   const MORANDI_TAGS = isChangsha ? MORANDI_TAGS_BLUE : MORANDI_TAGS_WARM;
-  const tabAccent = isChangsha ? 'border-lake-500 text-lake-600' : 'border-cream-500 text-slate-600';
-  const tabBadge = isChangsha ? 'bg-lake-100' : 'bg-cream-100';
-  // Card theme colors
-  const personBg = 'bg-[#FFFBF5] rounded-2xl border border-cream-200';
-  const personAvatar = isChangsha ? 'bg-lake-200 text-lake-700' : 'bg-dust-200 text-dust-700';
-  const personRole = isChangsha ? 'text-lake-500' : 'text-dust-500';
-  const personTag = isChangsha ? 'text-lake-400 bg-lake-50' : 'text-dust-400 bg-dust-50';
-  const foldBg = 'bg-[#FFFBF5] rounded-2xl border border-cream-200';
-  const foldStep = isChangsha ? 'bg-lake-200 text-lake-700' : 'bg-sage-200 text-sage-700';
-  const foldChevron = isChangsha ? 'text-lake-400' : 'text-sage-400';
+  // 武汉暖色 / 长沙薰衣草紫
+  const tabAccent = isChangsha ? 'border-lavender-500 text-lavender-600' : 'border-cream-500 text-slate-600';
+  const tabBadge = isChangsha ? 'bg-lavender-100' : 'bg-cream-100';
+  // Card theme colors — 长沙用薰衣草色系四色卡片
+  const personBg = isChangsha
+    ? 'bg-white rounded-2xl border border-lavender-100'
+    : 'bg-[#FFFBF5] rounded-2xl border border-cream-200';
+  const personAvatar = isChangsha ? 'bg-[#F2A8A8]/30 text-[#E87A7A]' : 'bg-dust-200 text-dust-700';
+  const personRole = isChangsha ? 'text-[#E87A7A]' : 'text-dust-500';
+  const personTag = isChangsha ? 'text-lavender-400 bg-lavender-50' : 'text-dust-400 bg-dust-50';
+  const foldBg = isChangsha
+    ? 'bg-white rounded-2xl border border-lavender-100'
+    : 'bg-[#FFFBF5] rounded-2xl border border-cream-200';
+  const foldStep = isChangsha ? 'bg-lavender-200 text-lavender-700' : 'bg-sage-200 text-sage-700';
+  const foldChevron = isChangsha ? 'text-lavender-400' : 'text-sage-400';
 
   const itemKey = (tabId, itemId) => `${tabId}-${itemId}`;
   const settings = data.settings || {};
@@ -82,7 +87,7 @@ export default function StudentView({ data, activeCity }) {
   }
 
   return (
-    <div className="bg-white" className="min-h-screen">
+    <div style={{ background: isChangsha ? '#F9F8FC' : '#FFFFFF' }} className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-6 md:py-10">
 
         {/* Header */}
@@ -92,7 +97,7 @@ export default function StudentView({ data, activeCity }) {
               {settings.siteTitle || '🐣 平台导航'}
             </h1>
             <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
-              isChangsha ? 'bg-lake-100 text-lake-600' : 'bg-cream-100 text-slate-600'
+              isChangsha ? 'bg-lavender-100 text-lavender-600' : 'bg-cream-100 text-slate-600'
             }`}>
               {isChangsha ? '长沙' : '武汉'}
             </span>
@@ -106,7 +111,11 @@ export default function StudentView({ data, activeCity }) {
           <input
             type="text" value={search} onChange={(e) => setSearch(e.target.value)}
             placeholder="搜一下——找人、问流程、查事项..."
-            className="w-full pl-11 pr-4 py-3 bg-white border border-cream-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-cream-300/40 focus:border-cream-400 shadow-sm transition-all"
+            className={`w-full pl-11 pr-4 py-3 bg-white border rounded-2xl text-sm focus:outline-none focus:ring-2 shadow-sm transition-all ${
+              isChangsha
+                ? 'border-lavender-100 focus:ring-lavender-300/40 focus:border-lavender-400'
+                : 'border-cream-200 focus:ring-cream-300/40 focus:border-cream-400'
+            }`}
           />
         </div>
 
@@ -288,7 +297,7 @@ export default function StudentView({ data, activeCity }) {
         className={`rounded-2xl border p-4 transition-all duration-200 ${
           done
             ? 'bg-cream-100/50 border-cream-200'
-            : 'bg-white border-cream-100 hover:shadow-md hover:-translate-y-0.5 cursor-pointer'
+            : `${isChangsha ? 'bg-white border-lavender-100' : 'bg-white border-cream-100'} hover:shadow-md hover:-translate-y-0.5 cursor-pointer`
         }`}>
         <div className="flex items-start gap-3">
           {!isSearchResult && (
