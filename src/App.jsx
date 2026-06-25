@@ -1,8 +1,20 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Settings, ArrowLeft } from 'lucide-react';
 import StudentView from './components/StudentView';
 import AdminDashboard from './components/AdminDashboard';
 import initialData from './data/initialData';
+
+// Cute icons
+const IconSettings = (props) => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" {...props}>
+    <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="2.2"/>
+    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+const IconArrowLeft = (props) => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" {...props}>
+    <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
 const STORAGE_KEY = 'internhub_data';
 const API_URL = '/api/data';
@@ -187,7 +199,7 @@ export default function App() {
               onClick={() => setIsAdmin(!isAdmin)}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-3xl transition-colors"
             >
-              {isAdmin ? (<><ArrowLeft size={14} /> 返回前台</>) : (<><Settings size={14} /> 设置</>)}
+              {isAdmin ? (<><IconArrowLeft /> 返回前台</>) : (<><IconSettings /> 设置</>)}
             </button>
           </div>
         </div>

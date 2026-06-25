@@ -1,5 +1,34 @@
 import { useState, useMemo } from 'react';
-import { Search, ExternalLink, ChevronDown, ChevronUp, Hash } from 'lucide-react';
+
+// ─── Cute SVG Icons ───
+const IconSearch = (props) => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" {...props}>
+    <circle cx="10.5" cy="10.5" r="7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+    <path d="M16 16l5 5" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round"/>
+  </svg>
+);
+const IconExternal = (props) => (
+  <svg width="11" height="11" viewBox="0 0 18 18" fill="none" {...props}>
+    <path d="M15 10.5v4a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 013 14.5v-9A1.5 1.5 0 014.5 4H9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M11 3h4v4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 12l7-7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+const IconHash = (props) => (
+  <svg width="12" height="12" viewBox="0 0 18 18" fill="none" {...props}>
+    <path d="M6.5 3l-1.5 12M12.5 3l-1.5 12M3.5 7h11.5M3 12h11.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+  </svg>
+);
+const IconChevronDown = (props) => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" {...props}>
+    <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+const IconChevronUp = (props) => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" {...props}>
+    <path d="M6 15l6-6 6 6" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
 function fuzzyMatch(text, keyword) {
   if (!keyword) return true;
@@ -107,7 +136,7 @@ export default function StudentView({ data, activeCity }) {
 
         {/* Search */}
         <div className="relative mb-4">
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+          <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text" value={search} onChange={(e) => setSearch(e.target.value)}
             placeholder="搜一下——找人、问流程、查事项..."
@@ -131,7 +160,7 @@ export default function StudentView({ data, activeCity }) {
                     ? 'bg-cream-500 text-white border-cream-500 scale-105'
                     : color + ' hover:scale-105'
                 }`}>
-                <Hash size={11} className="inline mr-0.5" />{tag}
+                <IconHash className="inline mr-0.5" />{tag}
               </button>
             );
           })}
@@ -262,7 +291,7 @@ export default function StudentView({ data, activeCity }) {
           <button onClick={() => setExpandedItem(isExpanded ? null : key)}
             className="w-full flex items-center justify-between px-4 py-3.5 text-left">
             <span className="text-sm font-bold text-slate-800">{item.title}</span>
-            {isExpanded ? <ChevronUp size={18} className={`${foldChevron} shrink-0`} /> : <ChevronDown size={18} className={`${foldChevron} shrink-0`} />}
+            {isExpanded ? <IconChevronUp className={`${foldChevron} shrink-0`} /> : <IconChevronDown className={`${foldChevron} shrink-0`} />}
           </button>
           <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[800px]' : 'max-h-0'}`}>
             <div className="px-4 pb-4 space-y-3">
@@ -281,7 +310,7 @@ export default function StudentView({ data, activeCity }) {
                 <div className="flex flex-wrap gap-2 pt-1">
                   {item.links.map((link, idx) => link.url ? (
                     <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-slate-600">{link.text}<ExternalLink size={11} /></a>
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-slate-600">{link.text}<IconExternal /></a>
                   ) : null)}
                 </div>
               )}
@@ -323,7 +352,7 @@ export default function StudentView({ data, activeCity }) {
                 {item.links.map((link, idx) => link.url ? (
                   <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 bg-cream-50 hover:bg-cream-100 px-2.5 py-1 rounded-lg transition-colors" onClick={(e) => e.stopPropagation()}>
-                    {link.text}<ExternalLink size={11} /></a>
+                    {link.text}<IconExternal /></a>
                 ) : (
                   <span key={idx} className="inline-flex items-center gap-1 text-[11px] text-slate-400 bg-cream-50 px-2 py-1 rounded-lg">{link.text}</span>
                 ))}
