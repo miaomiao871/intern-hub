@@ -257,6 +257,30 @@
                 "简历收集与筛选",
                 "协助面试"
               ]
+            },
+            {
+              "id": 1782407086697,
+              "title": "华中区域职协的日常运营",
+              "content": "",
+              "steps": [
+                "8-11月：同步职协的秋招进展",
+                "12月：职协招新换届，职协年度工作总结会、年终团建",
+                "其他：职协运营&凝聚力建设"
+              ],
+              "links": [
+                {
+                  "text": "2024年职协运营",
+                  "url": "https://i.zte.com.cn/#/shared/e8ab1243e3224e478c480f57225d9ef4/wiki/page/9c37af1e21f545f0ab7a6407dc98c3a1/view"
+                },
+                {
+                  "text": "2024年华中区职协名单信息表",
+                  "url": "https://i.zte.com.cn/#/shared/e8ab1243e3224e478c480f57225d9ef4/wiki/page/965ac7bbbb2f42f9ad077609307cb976/view"
+                },
+                {
+                  "text": "2024职协规划运营",
+                  "url": "https://i.zte.com.cn/#/shared/e8ab1243e3224e478c480f57225d9ef4/wiki/page/df46d5bb89ef43b091cf05b29aad4008/view"
+                }
+              ]
             }
           ]
         }
