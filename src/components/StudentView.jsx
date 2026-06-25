@@ -38,11 +38,11 @@ export default function StudentView({ data, activeCity }) {
   const tabAccent = isChangsha ? 'border-lake-500 text-lake-600' : 'border-cream-500 text-slate-600';
   const tabBadge = isChangsha ? 'bg-lake-100' : 'bg-cream-100';
   // Card theme colors
-  const personBg = isChangsha ? 'bg-lake-50/60 rounded-2xl border border-lake-200' : 'bg-dust-50/60 rounded-2xl border border-dust-200';
+  const personBg = 'bg-[#FFFBF5] rounded-2xl border border-cream-200';
   const personAvatar = isChangsha ? 'bg-lake-200 text-lake-700' : 'bg-dust-200 text-dust-700';
   const personRole = isChangsha ? 'text-lake-500' : 'text-dust-500';
   const personTag = isChangsha ? 'text-lake-400 bg-lake-50' : 'text-dust-400 bg-dust-50';
-  const foldBg = isChangsha ? 'bg-lake-50/60 rounded-2xl border border-lake-200' : 'bg-sage-50/60 rounded-2xl border border-sage-200';
+  const foldBg = 'bg-[#FFFBF5] rounded-2xl border border-cream-200';
   const foldStep = isChangsha ? 'bg-lake-200 text-lake-700' : 'bg-sage-200 text-sage-700';
   const foldChevron = isChangsha ? 'text-lake-400' : 'text-sage-400';
 
@@ -82,7 +82,7 @@ export default function StudentView({ data, activeCity }) {
   }
 
   return (
-    <div style={{ background: isChangsha ? '#F4F7FA' : '#FFFBF5' }} className="min-h-screen">
+    <div className="bg-white" className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-6 md:py-10">
 
         {/* Header */}
