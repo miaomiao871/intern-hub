@@ -267,7 +267,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-semibold text-slate-600 uppercase tracking-wider">板块管理</h2>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full font-medium">{activeCity === 'wuhan' ? '武汉' : '长沙'}</span>
+            <span className="text-xs font-semibold text-brand-600 bg-brand-100 px-2.5 py-0.5 rounded-full">{activeCity === 'wuhan' ? '武汉' : '长沙'}</span>
             <button onClick={onBack} className="text-xs text-brand-600 hover:text-brand-800 font-medium">返回前台 →</button>
           </div>
         </div>
@@ -296,7 +296,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
 
         <div className="space-y-1">
           {tabs.map((t, idx) => (
-            <div key={t.id} className={`rounded-2xl ${activeTabId === t.id ? 'bg-brand-50 ring-1 ring-brand-200' : 'hover:bg-slate-50'}`}>
+            <div key={t.id} className={`rounded-2xl border-l-4 transition-all ${activeTabId === t.id ? 'bg-brand-50 border-brand-400' : 'border-transparent hover:bg-slate-50'}`}>
               {editingTab === t.id ? (
                 <div className="p-2 space-y-2">
                   <input
@@ -357,7 +357,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
         {/* 页面设置面板 */}
         {showSettings && (
           <div>
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">⚙ 页面设置</h3>
+            <h3 className="text-lg font-bold text-brand-800 mb-4">⚙ 页面设置</h3>
             <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-5 max-w-xl">
               <div>
                 <label className="block text-xs font-medium text-slate-500 mb-1.5">网站标题</label>
@@ -385,8 +385,8 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
         {!showSettings && activeTabId && currentTab ? (
           <>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-slate-800">{currentTab.label} <span className="text-sm font-normal text-slate-400">({currentItems.length} 条内容)</span></h3>
-              <button onClick={openNewItem} className="flex items-center gap-1.5 px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-2xl hover:bg-brand-700 hover:-translate-y-0.5 transition-all duration-200">
+              <h3 className="text-lg font-bold text-brand-800">{currentTab.label} <span className="text-sm font-normal text-slate-400">({currentItems.length} 条内容)</span></h3>
+              <button onClick={openNewItem} className="flex items-center gap-1.5 px-4 py-2 bg-brand-500 text-white text-sm font-bold rounded-full hover:bg-brand-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 新增卡片
               </button>
@@ -394,7 +394,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
 
             <div className="space-y-2">
               {currentItems.map((item, idx) => (
-                <div key={item.id} className="bg-white rounded-2xl border border-slate-200 px-4 py-3 flex items-start justify-between gap-3 hover:border-brand-200 hover:-translate-y-0.5 transition-all duration-200">
+                <div key={item.id} className="bg-white rounded-2xl border border-slate-100 px-4 py-3 flex items-start justify-between gap-3 hover:border-brand-200 hover:-translate-y-0.5 transition-all duration-200">
                   <div className="flex items-center gap-2 shrink-0">
                     <button onClick={() => moveItem(idx, 'up')} disabled={idx === 0} className="p-0.5 rounded hover:bg-slate-100 disabled:opacity-20 disabled:cursor-not-allowed" title="上移">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="18 15 12 9 6 15"/></svg>
@@ -404,7 +404,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
                     </button>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{item.title || '(无标题)'}</p>
+                    <p className="text-sm font-semibold text-slate-800 truncate">{item.title || '(无标题)'}</p>
                     <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">
                       {item.role ? `[${item.role}] ` : ''}{item.content || ''}{(item.links && item.links.length > 0) ? ` | ${item.links.length} 个链接` : ''}
                     </p>
@@ -430,7 +430,7 @@ export default function AdminDashboard({ data, setData, onBack, activeCity }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-xl border border-slate-200 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 sticky top-0 bg-white z-10">
-              <h2 className="text-lg font-semibold text-slate-800">{editingItem ? '编辑' : '新增'}卡片</h2>
+              <h2 className="text-lg font-bold text-brand-800">{editingItem ? '编辑' : '新增'}卡片</h2>
               <button onClick={() => setShowItemForm(false)} className="p-1 rounded-3xl hover:bg-slate-100">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>

@@ -126,6 +126,7 @@ export default function App() {
 
   // 获取当前城市数据
   const currentCity = data?.activeCity || 'wuhan';
+  const isChangsha = currentCity === 'changsha';
   const currentCityData = data?.cities?.[currentCity];
 
   // AdminDashboard 的 setter：只更新当前城市的数据
@@ -151,22 +152,22 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 font-cute">
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <div className="min-h-screen font-cute" style={{ background: 'linear-gradient(180deg, #ECFDF5 0%, #F9FAFB 30%, #F9FAFB 100%)' }}>
+      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-lg border-b border-brand-100">
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between gap-2">
           {/* 左侧：Logo + 城市切换 */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-brand-700">InternHub</span>
+            <span className="text-sm font-extrabold text-brand-700">InternHub</span>
             {/* 城市切换按钮 */}
             <div className="flex bg-slate-100 rounded-3xl p-0.5">
               {Object.entries(CITY_NAMES).map(([key, label]) => (
                 <button
                   key={key}
                   onClick={() => switchCity(key)}
-                  className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-full transition-all ${
                     currentCity === key
-                      ? 'bg-brand-600 text-white shadow-sm'
-                      : 'text-slate-500 hover:text-slate-700'
+                      ? `${isChangsha ? 'bg-sky-500' : 'bg-brand-500'} text-white shadow-sm scale-105`
+                      : 'text-slate-400 hover:text-slate-600'
                   }`}
                 >
                   {label}
