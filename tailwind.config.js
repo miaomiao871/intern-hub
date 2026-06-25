@@ -5,16 +5,16 @@ export default {
     extend: {
       colors: {
         cream: {
-          50: '#FFFBF5',
-          100: '#FFF5EB',
-          200: '#FFE8D0',
-          300: '#FFD4A8',
-          400: '#FFC080',
-          500: '#FFB366',
-          600: '#E89A4D',
-          700: '#C47A35',
-          800: '#8C5A2A',
-          900: '#5C4B37',
+          50: '#FFFBF0',
+          100: '#FFF2D6',
+          200: '#FFE4B5',
+          300: '#FFD699',
+          400: '#FFC280',
+          500: '#FFB35A',
+          600: '#E69A3D',
+          700: '#C47825',
+          800: '#9A5A15',
+          900: '#2D2A26',
         },
         dust: {
           50: '#FFF5F5',
@@ -50,9 +50,12 @@ export default {
         },
         card: {
           activity: '#7FC1D9',
-          mood: '#F2A8A8',
+          mood: '#F7CFCD',
           food: '#F5C6A0',
           sleep: '#B8A9C9',
+          blue: '#9FD5E8',
+          pink: '#F7CFCD',
+          success: '#D9F0A9',
         },
         lake: {
           50: '#F4F7FA',

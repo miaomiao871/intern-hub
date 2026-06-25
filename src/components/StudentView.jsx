@@ -41,12 +41,12 @@ function fuzzyMatch(text, keyword) {
   return ki === kw.length;
 }
 
-// 莫兰迪柔和彩色标签
+// 武汉暖调标签 / 长沙标签
 const MORANDI_TAGS_WARM = [
-  'bg-cream-200 text-slate-600 border-cream-300',
-  'bg-dust-100 text-dust-600 border-dust-200',
-  'bg-sage-100 text-sage-600 border-sage-200',
-  'bg-lavender-100 text-lavender-600 border-lavender-200',
+  'bg-cream-100 text-[#C47825] border-cream-300',
+  'bg-card-pink/30 text-[#D48A8A] border-card-pink/40',
+  'bg-card-blue/30 text-[#5A9BB8] border-card-blue/40',
+  'bg-card-success/40 text-[#7AA83A] border-card-success/50',
 ];
 const MORANDI_TAGS_BLUE = [
   'bg-card-activity/30 text-card-activity border-card-activity/40',
@@ -64,21 +64,21 @@ export default function StudentView({ data, activeCity }) {
 
   const isChangsha = activeCity === 'changsha';
   const MORANDI_TAGS = isChangsha ? MORANDI_TAGS_BLUE : MORANDI_TAGS_WARM;
-  // 武汉暖色 / 长沙薰衣草紫
-  const tabAccent = isChangsha ? 'border-lavender-500 text-lavender-600' : 'border-cream-500 text-slate-600';
+  // 武汉暖杏 / 长沙薰衣草紫
+  const tabAccent = isChangsha ? 'border-lavender-500 text-lavender-600' : 'border-cream-500 text-[#C47825]';
   const tabBadge = isChangsha ? 'bg-lavender-100' : 'bg-cream-100';
-  // Card theme colors — 长沙用薰衣草色系四色卡片
+  // Card theme colors
   const personBg = isChangsha
     ? 'bg-white rounded-2xl border border-lavender-100'
-    : 'bg-[#FFFBF5] rounded-2xl border border-cream-200';
-  const personAvatar = isChangsha ? 'bg-[#F2A8A8]/30 text-[#E87A7A]' : 'bg-dust-200 text-dust-700';
-  const personRole = isChangsha ? 'text-[#E87A7A]' : 'text-dust-500';
-  const personTag = isChangsha ? 'text-lavender-400 bg-lavender-50' : 'text-dust-400 bg-dust-50';
+    : 'bg-[#FFFBF0] rounded-2xl border border-cream-100';
+  const personAvatar = isChangsha ? 'bg-[#F7CFCD]/40 text-[#D48A8A]' : 'bg-card-pink/40 text-[#D48A8A]';
+  const personRole = isChangsha ? 'text-[#E87A7A]' : 'text-[#D48A8A]';
+  const personTag = isChangsha ? 'text-lavender-400 bg-lavender-50' : 'text-[#9A9690] bg-cream-50';
   const foldBg = isChangsha
     ? 'bg-white rounded-2xl border border-lavender-100'
-    : 'bg-[#FFFBF5] rounded-2xl border border-cream-200';
-  const foldStep = isChangsha ? 'bg-lavender-200 text-lavender-700' : 'bg-sage-200 text-sage-700';
-  const foldChevron = isChangsha ? 'text-lavender-400' : 'text-sage-400';
+    : 'bg-[#FFFBF0] rounded-2xl border border-cream-100';
+  const foldStep = isChangsha ? 'bg-lavender-200 text-lavender-700' : 'bg-card-blue/40 text-[#5A9BB8]';
+  const foldChevron = isChangsha ? 'text-lavender-400' : 'text-cream-400';
 
   const itemKey = (tabId, itemId) => `${tabId}-${itemId}`;
   const settings = data.settings || {};
@@ -116,30 +116,30 @@ export default function StudentView({ data, activeCity }) {
   }
 
   return (
-    <div style={{ background: isChangsha ? '#F9F8FC' : '#FFFFFF' }} className="min-h-screen">
+    <div style={{ background: isChangsha ? '#F9F8FC' : '#FFF8E8' }} className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-6 md:py-10">
 
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
+            <h1 className="text-xl md:text-2xl font-extrabold text-[#2D2A26] tracking-tight">
               {settings.siteTitle || '🐣 平台导航'}
             </h1>
             <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
-              isChangsha ? 'bg-lavender-100 text-lavender-600' : 'bg-cream-100 text-slate-600'
+              isChangsha ? 'bg-lavender-100 text-lavender-600' : 'bg-cream-100 text-[#2D2A26]'
             }`}>
               {isChangsha ? '长沙' : '武汉'}
             </span>
           </div>
-          <p className="text-sm text-slate-500 ml-1">{settings.siteSubtitle}</p>
+          <p className="text-sm text-[#6B6863] ml-1">{settings.siteSubtitle}</p>
         </div>
 
         {/* Search */}
         <div className="relative mb-4">
-          <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+          <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9A9690]" />
           <input
             type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-            placeholder="搜一下——找人、问流程、查事项..."
+            className="text-[#9A9690]" placeholder="搜一下——找人、问流程、查事项..."
             className={`w-full pl-11 pr-4 py-3 bg-white border rounded-2xl text-sm focus:outline-none focus:ring-2 shadow-sm transition-all ${
               isChangsha
                 ? 'border-lavender-100 focus:ring-lavender-300/40 focus:border-lavender-400'
@@ -166,7 +166,7 @@ export default function StudentView({ data, activeCity }) {
           })}
           {search && (
             <button onClick={() => { setSearch(''); setActiveTab(tabs.length > 0 ? tabs[0].id : null); window.scrollTo(0, 0); }}
-              className="px-3 py-1.5 text-xs font-medium rounded-full bg-cream-200 text-slate-600 hover:bg-cream-300 transition-colors">
+              className="px-3 py-1.5 text-xs font-medium rounded-full bg-cream-200 text-[#2D2A26] hover:bg-cream-300 transition-colors">
               返回首页
             </button>
           )}
@@ -182,7 +182,7 @@ export default function StudentView({ data, activeCity }) {
                   className={`px-4 py-2.5 text-sm font-semibold whitespace-nowrap transition-all border-b-2 -mb-px ${
                     activeTab === t.id
                       ? tabAccent
-                      : 'border-transparent text-slate-400 hover:text-slate-600'
+                      : 'border-transparent text-[#9A9690] hover:text-[#2D2A26]'
                   }`}>
                   {t.label}
                   <span className={`ml-1.5 text-[11px] px-1.5 py-0.5 rounded-full ${
@@ -198,8 +198,8 @@ export default function StudentView({ data, activeCity }) {
 
         {/* Search results */}
         {hasSearch && (
-          <div className="mb-4 text-sm text-slate-500">
-            找到 <span className="font-semibold text-slate-600">{searchResults.length}</span> 个结果
+          <div className="mb-4 text-sm text-[#6B6863]">
+            找到 <span className="font-semibold text-[#2D2A26]">{searchResults.length}</span> 个结果
           </div>
         )}
         {hasSearch && searchResults.length > 0 && (
@@ -212,7 +212,7 @@ export default function StudentView({ data, activeCity }) {
               });
               return Object.entries(groups).map(([tabId, group]) => (
                 <div key={tabId}>
-                  <div className="flex items-center gap-1.5 mb-2.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">{group.label}</div>
+                  <div className="flex items-center gap-1.5 mb-2.5 text-[11px] font-semibold text-[#6B6863] uppercase tracking-wider">{group.label}</div>
                   <div className="space-y-3">{group.items.map((item) => renderItem(item, true, tabId))}</div>
                 </div>
               ));
@@ -240,16 +240,16 @@ export default function StudentView({ data, activeCity }) {
         {!hasSearch && currentTab && currentItems.length === 0 && (
           <div className="text-center py-16">
             <div className="text-5xl mb-3">📭</div>
-            <p className="text-slate-400 text-sm">这个板块还没有内容</p>
-            <p className="text-slate-300 text-xs mt-1">点击右上角「设置」来添加</p>
+            <p className="text-[#9A9690] text-sm">这个板块还没有内容</p>
+            <p className="text-[#9A9690] text-xs mt-1">点击右上角「设置」来添加</p>
           </div>
         )}
         {hasSearch && searchResults.length === 0 && (
           <div className="text-center py-16">
             <div className="text-5xl mb-3">🔍</div>
-            <p className="text-slate-400 text-sm">没找到相关内容，试试其他关键词</p>
+            <p className="text-[#9A9690] text-sm">没找到相关内容，试试其他关键词</p>
             <button onClick={() => { setSearch(''); setActiveTab(tabs.length > 0 ? tabs[0].id : null); window.scrollTo(0, 0); }}
-              className="mt-3 text-xs font-semibold text-slate-600 hover:text-slate-600">返回首页</button>
+              className="mt-3 text-xs font-semibold text-[#2D2A26] hover:text-[#2D2A26]">返回首页</button>
           </div>
         )}
       </div>
@@ -270,9 +270,9 @@ export default function StudentView({ data, activeCity }) {
           <div className={`w-9 h-9 rounded-xl ${personAvatar} flex items-center justify-center text-sm font-bold mb-3`}>
             {item.title ? item.title[0] : '?'}
           </div>
-          <h3 className="text-sm font-bold text-slate-800">{item.title}</h3>
+          <h3 className="text-sm font-bold text-[#2D2A26]">{item.title}</h3>
           <p className={`text-[11px] font-semibold ${personRole} mt-0.5`}>{item.role}</p>
-          <p className="text-xs text-slate-500 mt-2 leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
+          <p className="text-xs text-[#6B6863] mt-2 leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
           {item.links && item.links.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-3">
               {item.links.map((link, idx) => (
@@ -290,16 +290,16 @@ export default function StudentView({ data, activeCity }) {
         <div key={item.id} className={`${foldBg} overflow-hidden hover:shadow-md transition-all duration-200`}>
           <button onClick={() => setExpandedItem(isExpanded ? null : key)}
             className="w-full flex items-center justify-between px-4 py-3.5 text-left">
-            <span className="text-sm font-bold text-slate-800">{item.title}</span>
+            <span className="text-sm font-bold text-[#2D2A26]">{item.title}</span>
             {isExpanded ? <IconChevronUp className={`${foldChevron} shrink-0`} /> : <IconChevronDown className={`${foldChevron} shrink-0`} />}
           </button>
           <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[800px]' : 'max-h-0'}`}>
             <div className="px-4 pb-4 space-y-3">
-              <p className="text-xs text-slate-500 leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
+              <p className="text-xs text-[#6B6863] leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
               {hasSteps && (
                 <ol className="space-y-2">
                   {(item.steps || []).map((step, idx) => (
-                    <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-700">
+                    <li key={idx} className="flex items-start gap-2.5 text-xs text-[#2D2A26]">
                       <span className={`w-5 h-5 rounded-lg ${foldStep} text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5`}>{idx + 1}</span>
                       {step}
                     </li>
@@ -310,7 +310,7 @@ export default function StudentView({ data, activeCity }) {
                 <div className="flex flex-wrap gap-2 pt-1">
                   {item.links.map((link, idx) => link.url ? (
                     <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-slate-600">{link.text}<IconExternal /></a>
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D2A26] hover:text-[#2D2A26]">{link.text}<IconExternal /></a>
                   ) : null)}
                 </div>
               )}
@@ -326,7 +326,7 @@ export default function StudentView({ data, activeCity }) {
         className={`rounded-2xl border p-4 transition-all duration-200 ${
           done
             ? 'bg-cream-100/50 border-cream-200'
-            : `${isChangsha ? 'bg-white border-lavender-100' : 'bg-white border-cream-100'} hover:shadow-md hover:-translate-y-0.5 cursor-pointer`
+            : `${isChangsha ? 'bg-white border-lavender-100' : 'bg-[#FFFBF0] border-cream-100'} hover:shadow-md hover:-translate-y-0.5 cursor-pointer`
         }`}>
         <div className="flex items-start gap-3">
           {!isSearchResult && (
@@ -335,13 +335,13 @@ export default function StudentView({ data, activeCity }) {
               : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8D5C4" strokeWidth="1.5" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/></svg>
           )}
           <div className="flex-1 min-w-0">
-            <h3 className={`text-sm font-bold ${done ? 'text-slate-300 line-through' : 'text-slate-800'}`}>{item.title}</h3>
-            <p className={`text-xs mt-1 leading-relaxed ${done ? 'text-slate-300' : 'text-slate-500'}`} style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
+            <h3 className={`text-sm font-bold ${done ? 'text-[#9A9690] line-through' : 'text-[#2D2A26]'}`}>{item.title}</h3>
+            <p className={`text-xs mt-1 leading-relaxed ${done ? 'text-[#9A9690]' : 'text-[#6B6863]'}`} style={{ whiteSpace: 'pre-wrap' }}>{item.content}</p>
             {hasSteps && (
               <ol className="space-y-1.5 mt-2">
                 {(item.steps || []).map((step, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-[11px] text-slate-500">
-                    <span className="w-4 h-4 rounded-lg bg-cream-100 text-slate-600 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{idx + 1}</span>
+                  <li key={idx} className="flex items-start gap-2 text-[11px] text-[#6B6863]">
+                    <span className="w-4 h-4 rounded-lg bg-cream-100 text-[#2D2A26] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{idx + 1}</span>
                     {step}
                   </li>
                 ))}
@@ -351,10 +351,10 @@ export default function StudentView({ data, activeCity }) {
               <div className="flex flex-wrap gap-2 mt-3">
                 {item.links.map((link, idx) => link.url ? (
                   <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 bg-cream-50 hover:bg-cream-100 px-2.5 py-1 rounded-lg transition-colors" onClick={(e) => e.stopPropagation()}>
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2D2A26] bg-cream-50 hover:bg-cream-100 px-2.5 py-1 rounded-lg transition-colors" onClick={(e) => e.stopPropagation()}>
                     {link.text}<IconExternal /></a>
                 ) : (
-                  <span key={idx} className="inline-flex items-center gap-1 text-[11px] text-slate-400 bg-cream-50 px-2 py-1 rounded-lg">{link.text}</span>
+                  <span key={idx} className="inline-flex items-center gap-1 text-[11px] text-[#9A9690] bg-cream-50 px-2 py-1 rounded-lg">{link.text}</span>
                 ))}
               </div>
             )}
