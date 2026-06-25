@@ -117,7 +117,7 @@ export default function StudentView({ data, activeCity }) {
   }
 
   return (
-    <div style={{ background: isChangsha ? '#F9F8FC' : '#FFF8E8' }} className="min-h-screen">
+    <div style={{ background: isChangsha ? '#F9F8FC' : '#FFFFFF' }} className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-6 md:py-10">
 
         {/* Header */}
